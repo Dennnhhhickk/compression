@@ -1,10 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string>
-#include <iterator>
-#include <cmath>
-#include <map>
 #include <bits/stdc++.h>
 
 #define x first
