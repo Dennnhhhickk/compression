@@ -1,4 +1,10 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include <cmath>
+#include <map>
+#include <string>
 
 #define x first
 #define y second
@@ -32,7 +38,7 @@ ll sum(ll a)
     ll anst = 0;
     while (a)
     {
-        anst += (a % 2);
+        anst += a % 2;
         a /= 2;
     }
     return anst;
@@ -130,6 +136,7 @@ int main()
                         ans1 = sum(j);
                         ans = j;
                         ans3 = cnt(j);
+                        //cout << ans3 << endl;
                         ans2 = tmp;
                     }
                 }
