@@ -136,7 +136,6 @@ int main()
                         ans1 = sum(j);
                         ans = j;
                         ans3 = cnt(j);
-                        //cout << ans3 << endl;
                         ans2 = tmp;
                     }
                 }
