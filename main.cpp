@@ -68,6 +68,14 @@ void view(vector<ll> a)
     cout << endl;
 }
 
+ll cnt(ll a)
+{
+    vector<ll> f = decomposition(a);
+    for (int i = 0; i < f.size(); i++)
+        if (f[i] == 1)
+            return i;
+}
+
 int main()
 {
 
@@ -104,7 +112,7 @@ int main()
 
             vector<ll> tmp;
             ll lst = cur.size();
-            ll ans = -1, ans1 = 120;
+            ll ans = -1, ans1 = 120, ans3 = -1;
             vector<ll> ans2;
 
             for (int j = 0; j < lst; j++)
@@ -117,10 +125,11 @@ int main()
                 if (mn[mp(j, tmp)] != -1)
                 {
                     bol = bol || fnd(mp(j, tmp));
-                    if (sum(j) < ans1)
+                    if (sum(j) < ans1 || (sum(j) == ans1 && cnt(j) > ans3))
                     {
                         ans1 = sum(j);
                         ans = j;
+                        ans3 = cnt(j);
                         ans2 = tmp;
                     }
                 }
