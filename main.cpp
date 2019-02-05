@@ -61,10 +61,7 @@ vector<ll> decomposition(ll a)
 
 bool fnd(pair<ll, vector<ll>> a)
 {
-    for (auto i : ANS)
-        if (i.x == a.x && i.y == a.y)
-            return true;
-    return false;
+    return mn[a] == 1;
 }
 
 void view(vector<ll> a)
@@ -90,7 +87,11 @@ int main()
 
     cin >> n >> len;
 
+    len = pow(2, len);
+
     cur = decomposition(n);
+
+    reverse(all(cur));
 
     for (int i = 0; i < cur.size(); i++)
         if (!F(i))
@@ -150,12 +151,13 @@ int main()
                 continue;
             }
 
-            ANS.pb(mp(ans, ans2));   
+            ANS.pb(mp(ans, ans2)); 
+            mn[mp(ans, ans2)] = 1;  
         }
         else
             ANS.pb(mp(-1, em));
 
-    string answer = "";
+    /*string answer = "";
 
     for (int i = 0; i < ANS.size(); i++)
         if (ANS[i].x != -1)
@@ -172,6 +174,76 @@ int main()
             answer += " or ";
         }
 
+    cout << answer.substr(0, answer.size() - 4) << endl;*/
+
+    freopen("p.html", "w", stdout);
+
+    cout << "<!DOCTYPE html> \n <html> \n<head>\n<meta charset=\"UTF-8\">\n<title>\nTest\n</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"main.css\">\n</head>\n";
+
+    cout << "<body>";
+
+    cout << "Answer :";
+
+    string answer = "";
+
+    for (int i = 0; i < cur.size(); i++)
+        if (ANS[i].x != -1)
+        {
+            vector<ll> dec = decomposition(i);
+            vector<ll> d = decomposition(ANS[i].x);
+            for (int j = 0; j < d.size(); j++)
+                if (d[j])
+                {
+                    if (dec[j] == 0)
+                        answer.pb('!');
+                    answer.pb(char(d.size() - 1 - j + 'A'));
+                }
+            answer += " or ";
+        }
+
     cout << answer.substr(0, answer.size() - 4) << endl;
+
+    cout << "\n<table border=\"3\">";
+
+    vector<ll> tmp;
+    ll lst = cur.size();
+    cout << "\n<tr>";
+    for (int j = 1; j < lst; j++)
+        {
+            cout << "<td>";
+            tmp.clear();
+            vector<ll> tmp1 = decomposition(j);
+            for (int z = 0; z < tmp1.size(); z++)
+                if (tmp1[z])
+                    cout << char(tmp1.size() - 1 - z + 'A');
+            cout <<"</td>";
+        }
+    cout <<"</tr>";
+
+    for (int i = 0; i < cur.size(); i++)
+    {
+        vector<ll> tmp;
+        ll lst = cur.size();
+        cout << "\n<tr>";
+        vector<ll> dec = decomposition(i);
+        for (int j = 1; j < lst; j++)
+            {
+                tmp.clear();
+                vector<ll> tmp1 = decomposition(j);
+                for (int z = 0; z < tmp1.size(); z++)
+                    if (tmp1[z])
+                        tmp.pb(dec[z]);
+                cout << "<td" << (mn[mp(j, tmp)] == -1? " id = \"jjjj\"" : (mn[mp(j, tmp)] == 1 ? " id = \"iiii\"" : "")) << ">";
+                for (auto i : tmp)
+                    cout << i;
+                cout <<"</td>";
+            }
+        cout <<"\n</tr>";
+    }
+
+    cout << "</table>\n</body>";
+
+    cout << "\n</html>";
+
     return 0;
 }
