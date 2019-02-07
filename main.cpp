@@ -95,15 +95,29 @@ ll cnt(ll a, ll b, vector<ll> ref)
     return trrrr;
 }
 
+bool cmp(ll a, ll b)
+{
+    return (sum(a) == sum(b) && a > b) || sum(a) < sum(b);
+}
+
 int main()
 {
+
+    vector<ll> listout;
 
     vector<ll> em;
     em.clear();
 
     cin >> n >> len;
 
+    ll tmplen = len;
+
     len = pow(2, len);
+
+    for (int i = 1; i < len; i++)
+        listout.pb(i);
+
+    sort(all(listout), cmp);
 
     cur = decomposition(n);
 
@@ -180,7 +194,23 @@ int main()
 
     cout << "<body>";
 
-    cout << "Answer :";
+    /*for (auto i : listout)
+        cout << i << ' ';
+
+    cout << "</br>";
+
+    for (auto i : listout)
+    {
+        vector<ll> dec = decomposition(i);
+        for (int j = 0; j < dec.size(); j++)
+            if (dec[j])
+                cout << tmplen - dec.size() + j;
+        cout << ' '; 
+    }
+
+    cout << "</br>";*/
+
+    cout << "<div>" << "Answer :";
 
     string answer = "";
 
@@ -194,30 +224,35 @@ int main()
                 {
                     if (dec[j] == 0)
                         answer.pb('!');
-                    answer.pb(char(d.size() - 1 - j + 'A'));
+                    answer.pb(char(tmplen - d.size() + j + 'A'));
                 }
             answer += " or ";
         }
 
     cout << answer.substr(0, answer.size() - 4) << endl;
 
+    cout << "</div>";
+
+
     cout << "\n<table border=\"3\">";
 
     vector<ll> tmp;
     ll lst = cur.size();
     cout << "\n<tr>";
-    cout << "<td>№</td>";
-    for (int j = 1; j < lst; j++)
+    cout << "<th>№</th>";
+    for (auto j : listout)
         {
-            cout << "<td>";
+            string s = "";
+            cout << "<th>";
             tmp.clear();
             vector<ll> tmp1 = decomposition(j);
             for (int z = 0; z < tmp1.size(); z++)
                 if (tmp1[z])
-                    cout << char(tmp1.size() - 1 - z + 'A');
-            cout <<"</td>";
+                    cout << char(tmplen - tmp1.size() + z + 'A');
+            cout << s;
+            cout <<"</th>";
         }
-    cout << "<td>F(№)</td>";
+    cout << "<th>F</th>";
     cout <<"</tr>";
 
     for (int i = 0; i < cur.size(); i++)
@@ -227,7 +262,7 @@ int main()
         cout << "\n<tr>";
         cout << "<td" << (!F(i)? " id = \"jjjj\"" : "") << ">" << i + 1 << "</td>";
         vector<ll> dec = decomposition(i);
-        for (int j = 1; j < lst; j++)
+        for (auto j : listout)
             {
                 tmp.clear();
                 vector<ll> tmp1 = decomposition(j);
