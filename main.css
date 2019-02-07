@@ -1,3 +1,11 @@
+table{
+	border-color: blue;
+}
+
+#merz{
+	background-image: url(images/1.jpg);
+}
+
 #jjjj{
 	background-color: red;
 }

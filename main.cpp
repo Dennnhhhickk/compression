@@ -20,6 +20,7 @@ using namespace std;
 
 ll n, len;
 map<pair<ll, vector<ll>>, ll> mn;
+map<pair<ll, vector<ll>>, ll> mni;
 vector<ll> cur;
 vector<pair<ll, vector<ll>>> ANS;
 
@@ -71,12 +72,27 @@ void view(vector<ll> a)
     cout << endl;
 }
 
-ll cnt(ll a)
+ll cnt(ll a, ll b, vector<ll> ref)
 {
-    vector<ll> f = decomposition(a);
-    for (int i = 0; i < f.size(); i++)
-        if (f[i] == 1)
-            return i;
+    ll trrrr = 0;
+    vector<ll> tmp;
+    for (int i = b + 1; i < cur.size(); i++)
+        if (F(i))
+        {
+            vector<ll> dec = decomposition(i);
+            tmp.clear();
+            vector<ll> tmp1 = decomposition(a);
+            for (int z = 0; z < tmp1.size(); z++)
+                if (tmp1[z])
+                    tmp.pb(dec[z]);
+            bool bol = 1;
+            for (int i = 0; i < ref.size(); i++)
+                if (tmp[i] != ref[i])
+                    bol = 0;    
+            if (mn[mp(a, dec)] != -1 && bol)
+                trrrr++;
+        }
+    return trrrr;
 }
 
 int main()
@@ -107,6 +123,7 @@ int main()
                     if (tmp1[z])
                         tmp.pb(dec[z]);
                 mn[mp(j, tmp)] = -1;
+                mni[mp(j, dec)] = -1;
             }
         }
 
@@ -132,11 +149,11 @@ int main()
                 if (mn[mp(j, tmp)] != -1)
                 {
                     bol = bol || fnd(mp(j, tmp));
-                    if (sum(j) < ans1 || (sum(j) == ans1 && cnt(j) > ans3))
+                    if (sum(j) < ans1 || (sum(j) == ans1 && cnt(j, i, tmp) > ans3))
                     {
                         ans1 = sum(j);
                         ans = j;
-                        ans3 = cnt(j);
+                        ans3 = cnt(j, i, tmp);
                         ans2 = tmp;
                     }
                 }
@@ -156,25 +173,6 @@ int main()
         }
         else
             ANS.pb(mp(-1, em));
-
-    /*string answer = "";
-
-    for (int i = 0; i < ANS.size(); i++)
-        if (ANS[i].x != -1)
-        {
-            vector<ll> dec = decomposition(i);
-            vector<ll> d = decomposition(ANS[i].x);
-            for (int j = 0; j < d.size(); j++)
-                if (d[j])
-                {
-                    if (dec[j] == 0)
-                        answer.pb('!');
-                    answer.pb(char(j + 'A'));
-                }
-            answer += " or ";
-        }
-
-    cout << answer.substr(0, answer.size() - 4) << endl;*/
 
     freopen("p.html", "w", stdout);
 
@@ -208,6 +206,7 @@ int main()
     vector<ll> tmp;
     ll lst = cur.size();
     cout << "\n<tr>";
+    cout << "<td>№</td>";
     for (int j = 1; j < lst; j++)
         {
             cout << "<td>";
@@ -218,6 +217,7 @@ int main()
                     cout << char(tmp1.size() - 1 - z + 'A');
             cout <<"</td>";
         }
+    cout << "<td>F(№)</td>";
     cout <<"</tr>";
 
     for (int i = 0; i < cur.size(); i++)
@@ -225,6 +225,7 @@ int main()
         vector<ll> tmp;
         ll lst = cur.size();
         cout << "\n<tr>";
+        cout << "<td" << (!F(i)? " id = \"jjjj\"" : "") << ">" << i + 1 << "</td>";
         vector<ll> dec = decomposition(i);
         for (int j = 1; j < lst; j++)
             {
@@ -238,6 +239,7 @@ int main()
                     cout << i;
                 cout <<"</td>";
             }
+        cout << "<td" << (!F(i)? " id = \"jjjj\"" : "") << ">" << (int)F(i) << "</td>";
         cout <<"\n</tr>";
     }
 
